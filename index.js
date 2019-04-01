@@ -362,7 +362,7 @@ var ctrl = function(err, p, ctx) {
 
     // get current timestamp
     time: function () {
-      return Math.max(0, (p.getPosition() / 1000) + offset);
+      return Math.max(0, (p.getPosition() / 1000));
     },
 
     // quit
