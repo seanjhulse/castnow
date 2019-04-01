@@ -87,6 +87,7 @@ if (opts.help) {
     'left                     Seek backward',
     'right                    Seek forward',
     'p                        Previous in playlist',
+    'time                     Get current timestamp (in seconds)',
     'n                        Next in playlist',
     's                        Stop playback',
     'quit                     Quit',
@@ -357,6 +358,11 @@ var ctrl = function(err, p, ctx) {
     // stop playback
     s: function() {
       p.stop();
+    },
+
+    // get current timestamp
+    time: function () {
+      return Math.max(0, (p.getPosition() / 1000) + offset);
     },
 
     // quit
