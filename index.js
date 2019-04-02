@@ -126,14 +126,11 @@ if (stepOption) {
   volumeStep = parsed;
 }
 
-debug('volume step: %s', volumeStep);
 
 ui.showLabels('state');
 
 function fatalError(err) {
   ui.hide(err);
-  debug(err);
-  console.log(chalk.red(err));
   process.exit();
 }
 
@@ -146,10 +143,10 @@ var last = function(fn, l) {
   };
 };
 
+
 var ctrl = function(err, p, ctx) {
   if (err) {
     ui.hide();
-    debug('player error: %o', err);
     console.log(chalk.red(err));
     process.exit();
   }
@@ -186,7 +183,6 @@ var ctrl = function(err, p, ctx) {
   var seekImmediate = function(offset) {
     if (ctx.options.disableSeek || offset === 0) return;
     var seconds = Math.max(0, (p.getPosition() / 1000) + offset);
-    debug('seeking to %s', seconds);
     p.seek(seconds);
   };
 
@@ -221,7 +217,6 @@ var ctrl = function(err, p, ctx) {
 
   var initialSeek = function() {
     var seconds = unformatTime(ctx.options.seek);
-    debug('seeking to %s', seconds);
     p.seek(seconds);
   };
 
@@ -238,7 +233,6 @@ var ctrl = function(err, p, ctx) {
     if (!playlist.length) return process.exit();
     p.stop(function() {
       ui.showLabels('state');
-      debug('loading next in playlist: %o', playlist[0]);
       p.load(playlist[0], noop);
       var file = playlist.shift();
       if (ctx.options.loop)
@@ -320,7 +314,6 @@ var ctrl = function(err, p, ctx) {
           return;
         }
 
-        debug("volume up: %s", status.level);
 
         volume = status;
       });
@@ -339,7 +332,6 @@ var ctrl = function(err, p, ctx) {
           return;
         }
 
-        debug("volume down: %s", status.level);
 
         volume = status;
       });
@@ -390,7 +382,6 @@ var ctrl = function(err, p, ctx) {
   if (is_keyboard_interactive) {
     process.stdin.on('keypress', function(ch, key) {
       if (key && key.name && keyMappings[key.name]) {
-        debug('key pressed: %s', key.name);
         keyMappings[key.name]();
       }
       if (key && key.ctrl && key.name == 'c') {
@@ -433,7 +424,6 @@ var logState = (function() {
   var dots = circulate(['.', '..', '...', '....']);
   return function(status) {
     if (inter) clearInterval(inter);
-    debug('player status: %s', status);
     inter = setInterval(function() {
       ui.setLabel('state', 'State', capitalize(status) + dots());
       ui.render();
@@ -486,10 +476,8 @@ player.use(function(ctx, next) {
 });
 
 if (!opts.playlist) {
-  debug('attaching...');
   player.attach(opts, ctrl);
 } else {
-  debug('launching...');
   player.launch(opts, ctrl);
 }
 
