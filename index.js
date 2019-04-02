@@ -363,9 +363,13 @@ var ctrl = function(err, p, ctx) {
     // get current timestamp
     v: function () {
 	  var seconds = Math.max(0, (p.getPosition() / 1000));
-	  debug(seconds);
+	  process.stdout.write(seconds.toString());
 	  return seconds;
-    },
+	},
+	
+	w: function() {
+	  process.stdout.write(p.currentSession.playerState);
+	},
 
     // quit
     q: function() {
