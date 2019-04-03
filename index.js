@@ -147,7 +147,6 @@ var last = function(fn, l) {
 var ctrl = function(err, p, ctx) {
   if (err) {
     ui.hide();
-    console.log(chalk.red(err));
     process.exit();
   }
 
@@ -164,7 +163,6 @@ var ctrl = function(err, p, ctx) {
 
   ctx.once('closed', function() {
     ui.hide();
-    console.log(chalk.red('lost connection'));
     process.exit();
   });
 
@@ -355,12 +353,12 @@ var ctrl = function(err, p, ctx) {
     // get current timestamp
     v: function () {
 	  var seconds = Math.max(0, (p.getPosition() / 1000));
-	  process.stdout.write(seconds.toString());
+	  console.log(seconds);
 	  return seconds;
 	},
 	
 	w: function() {
-	  process.stdout.write(p.currentSession.playerState);
+	  console.log(p.currentSession.playerState);
 	},
 
     // quit
